@@ -1,0 +1,368 @@
+﻿@page "/"
+@using System.Timers
+@rendermode InteractiveServer
+@inject IJSRuntime jsRuntime
+<PageTitle>HIPAR</PageTitle>
+
+
+<div style=" width: 100%; margin:auto;min-height: 100%; height: 100%;">
+
+    <div style="background-color:darkred; height:10%; min-height:10%;">
+        <h1 style="background-color: darkred; font-family: 'Public Pixel'; color: black;">HIPAR</h1>
+        </div>
+    <div class="crt"  style=" background-color:#050505; height: 85%; min-height: 85%; font-family:'Public Pixel'; font-size:16px;">
+       
+        @foreach (var command in commandList)
+        { 
+            @if (command.Zaman != DateTime.MinValue)
+            {
+              <span style="color:#222222; font-weight:200;">[@command.Zaman.ToShortTimeString()] &nbsp;
+            </span>
+            }            
+            @if (command.IsHTMLMarkup)
+            {
+                @((MarkupString)command.Text)
+            }
+            else
+            {
+                @if (command.IsTypeWriter)
+                {
+                    <div class="typewriter">
+                        <p  style="color:@command.Color; font-size:@(command.FontSize)px;">@command.Text</p>
+                </div>
+                    
+                }
+                else
+                {
+                    <span style="color:@command.Color; font-size:@(command.FontSize)px;">@command.Text</span>
+                    <br />
+                }
+                
+            }
+        
+          
+        }
+    </div>
+    <div style="background-color: black; top: 95%;height:5%; min-height:5%; position: fixed; width: 100%; display: flex;">
+        <input @bind="inputCommand" @onkeypress="inputKeyPress" class="noborder" style="font-family: 'Public Pixel'; color:aliceblue; width: 100%; background-color: black; border: none;" />
+        <button @onclick="sendButtonClick">SEND</button>
+    </div>
+
+</div>
+
+
+
+
+@code {
+    private List<CommandItemClass> commandList { get; set; } = new List<CommandItemClass>();
+    private string? inputCommand { get; set; }
+    private System.Timers.Timer _timer;
+    private Random _random { get; set; }
+    private bool secret;
+    private int attempts;
+    private bool yn;
+    private int ynl = 0;
+    private bool starte;
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _random = new Random();
+        terminalInit();
+        _timer = new();
+        _timer.Interval = 1000;
+        _timer.Elapsed += async (object? sender, ElapsedEventArgs e) =>
+        {
+            int rndValue = _random.Next(0, 10000000);
+
+            if (rndValue >= 0 && rndValue <= 1000000)
+            {
+
+            }
+            else if (rndValue >= 1000000 && rndValue <= 1100000)
+            {
+
+            }
+
+            await InvokeAsync(StateHasChanged);
+        };
+        _timer.Enabled = true;
+    }
+    private void sendButtonClick()
+    {
+        processCommand();
+
+
+    }
+    private void inputKeyPress(KeyboardEventArgs keyboardK)
+    {
+        if (keyboardK.Code == "Enter" || keyboardK.Code == "NumpadEnter")
+        {
+            processCommand();
+        }
+    }
+    private void processCommand()
+    {
+
+
+        if (String.IsNullOrEmpty(inputCommand))
+        {
+
+        }
+        else
+        {
+            CommandItemClass newCommandItemObject = new CommandItemClass();
+            newCommandItemObject.Text = inputCommand;
+            newCommandItemObject.Zaman = DateTime.Now;
+            commandList.Add(newCommandItemObject);
+            if (yn == false)
+            {
+                if (inputCommand.ToLower() == "nya")
+                {
+                    newCommandItemObject.Color = "#ffffff";
+                }
+                else if (inputCommand.ToLower() == "help")
+                {
+                    CommandItemClass terminalHelpLine = new CommandItemClass();
+                    terminalHelpLine.FontSize = 20;
+                    terminalHelpLine.Text = "\"help\" is not a valid command yet HIPAR is still in its training process";
+                    terminalHelpLine.Color = "#ff0000";
+                    terminalHelpLine.IsTypeWriter = true;
+                    commandList.Add(terminalHelpLine);
+                }
+                else if (inputCommand.ToLower() == "process: info")
+                {
+                    CommandItemClass terminalInfoLine = new CommandItemClass();
+                    terminalInfoLine.Text = @"
+        <pre style="" color: #ffffff; font-size: 24px;"">
+          _    _ _____ _____        _____
+         | |  | |_   _|  __ \ /\   |  __ \
+         | |__| | | | | |__) /  \  | |__) |
+         |  __  | | | |  ___/ /\ \ |  _  /
+         | |  | |_| |_| |  / ____ \| | \ \
+         |_|  |_|_____|_| /_/    \_\_|  \_\
+        </pre>";
+                    terminalInfoLine.IsHTMLMarkup = true;
+                    commandList.Add(terminalInfoLine);
+                    CommandItemClass terminalInfoLine2 = new CommandItemClass();
+                    terminalInfoLine2.Text = " \r\n(Highly Intelligent Processing Arigtonyte Result).";
+                    terminalInfoLine2.FontSize = 20;
+                    terminalInfoLine2.Color = "#aecfe7";
+                    terminalInfoLine2.IsTypeWriter = true;
+                    commandList.Add(terminalInfoLine2);
+                    CommandItemClass terminalInfoLine3 = new CommandItemClass();
+                    terminalInfoLine3.Text = "\r\nA Highly intelligent processing system based on\r\nThe Arygtonite Framework\r\n";
+                    terminalInfoLine3.FontSize = 20;
+                    terminalInfoLine3.Color = "#aecfe7";
+                    terminalInfoLine3.IsTypeWriter = true;
+                    commandList.Add(terminalInfoLine3);
+
+                }
+                else if (inputCommand.ToLower() == "process: hisui")
+                {
+                    Hisuii();
+                    CommandItemClass terminalHisuiLine = new CommandItemClass();
+
+                    terminalHisuiLine.Text = "https://www.who.int/news-room/fact-sheets/detail/suicide";
+                    terminalHisuiLine.Color = "#ff0000";
+
+                    commandList.Add(terminalHisuiLine);
+                }
+                else if (inputCommand.ToLower() == "process: knowledge")
+                {
+                    Knowi();
+                    CommandItemClass terminalKnowLine = new CommandItemClass();
+
+                    terminalKnowLine.Text = "Follow your heart,\nAnd you'll find,\nWhat's right,";
+                    terminalKnowLine.Color = "#aecfe7";
+                    terminalKnowLine.IsTypeWriter = true;
+                    commandList.Add(terminalKnowLine);
+                }
+                else if (inputCommand.ToLower() == "process: wr11sr")
+                {
+                    if (secret == true)
+                    {
+                        CommandItemClass terminalVisaLine = new CommandItemClass();
+                        terminalVisaLine.Text = "<!DOCTYPE html><html><head>    <title>akumarin daddy</title>    <style>        .Text {            text-align: center;            font-family: 'Courier New', Courier, monospace;            color: white;            scale: 125%;            font-family: sans-serif;        }        .wr11srTwitter {            text-align: center;        }        .Discord,        .Youtube {            color: white;            display: inline-block;            vertical-align: top;        }        .Discord {            text-align: right;            font-family: 'Courier New', Courier, monospace;        }        .Youtube {            text-align: justify;            margin-left: 20px; /* Adjust the margin as needed */        }    </style></head><body style=\"background-color: black\">    <div class=\"Text\">        <h1>            ignore this text        </h1>    </div>    <div></div>    <div class=\"Text\">        <h1>            welcome to wr11sr's portfolio :skull:        </h1>    </div>    <div class=\"wr11srTwitter\">        <a href=\"https://twitter.com/heroofhylia5707\">            <button style=\"background-color:blue\">                <h1 style=\"color:aquamarine\">my twitter frfr!!!1!1!1!1!1!</h1>            </button>        </a>    </div>    <div class=\"Discord\">        <h3>My Discord server</h3>        <iframe src=\"https://discord.com/widget?id=1120005959310393354&theme=dark\" width=\"350\" height=\"500\"            allowtransparency=\"true\" frameborder=\"0\" sandbox=\"allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts\"></iframe>    </div>    <div class=\"Youtube\">        <h1>my fav video of all time (not really)</h1>        <iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/bt3_q8z0dzw?si=hu36ku6d0iWHLANt\"            title=\"YouTube video player\" frameborder=\"0\"            allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\"            allowfullscreen></iframe>    </div></body></html>";
+                        terminalVisaLine.IsHTMLMarkup = true;
+                        commandList.Add(terminalVisaLine);
+                    }
+                    else
+                    {
+                        Invalid();
+                    }
+                }
+                else if (inputCommand.ToLower() == "process: cow")
+                {
+                    if (secret == true)
+                    {
+                        CommandItemClass terminalCowLine = new CommandItemClass();
+                        terminalCowLine.Text = "<img src=\"https://cdn.britannica.com/55/174255-050-526314B6/brown-Guernsey-cow.jpg\">";
+
+                        terminalCowLine.IsHTMLMarkup = true;
+                        commandList.Add(terminalCowLine);
+                    }
+                    else
+                    {
+                        Invalid();
+                    }
+
+                }
+                else if (inputCommand.ToLower() == "process: aquamarine")
+                {
+                    if (secret == true)
+                    {
+                        CommandItemClass terminalAquaLine = new CommandItemClass();
+                        terminalAquaLine.Text = "      <style>             .toplogo {        text-align: center;        scale: 70%;        opacity: 100%;       }       .Header {        text-align: center;        color: aquamarine;        scale: 150%;        font-family: 'Public Pixel', sans-serif;        text-shadow: 2px 2px rgb(1, 100, 70);        outline: 5px dotted aquamarine;       }       .Para {        width: 800px;       margin: auto;                text-align: center;        color: aquamarine;        scale: 130%;        font-family: 'Public Pixel', sans-serif;        text-shadow: 2px 2px rgb(1, 100, 70);             }       .space {        height: 65px;       }        </style>    </head>    <body style=\"background-color: black;\">        <div class=\"toplogo\">            <img src=\"https://www.gamemaster.net.tr/wp-content/uploads/2024/02/Aquamarine-Dev.png\">        </div>           <div class=\"Header\">    <h1>About me</h1>   </div>   <div class=\"space\">       </div>   <div class=\"Para\">    <p>My name is Cem Ozoral. I am 14 years old. My house is in Istanbul, in a complex where all the villas are. I work as a freelancer hobbyist and get home every day by 5 PM at the latest. I am obsessed with DUMPLINGS. I am usually in bed by 4 AM and make sure I get at least four hours of sleep, no matter what. After having some water and watching about eighty minutes of anime before going to bed, I usually have lots of problems sleeping until morning, so I wake up even more sleepy. I was told there were no issues at my last check-up.</p>   </div>   <div class=\"space\">       </div>   <div class=\"Header\">    <h1>Skills</h1>   </div>   <div class=\"space\">       </div>      <div class=\"Para\">   <h1>Programming/Coding</h1>   </div>   <div class=\"space\">       </div>   <div class=\"Para\">    <h2>C#</h2>    <h2>Python</h2>    <h2>(HTML/CSS)</h2>    <h2>Visual JS</h2>    </div>    <div class=\"space\">        </div>    <div class=\"Para\">        <h1>Graphic Design</h1>        </div>        <div class=\"space\">            </div>        <div class=\"Para\">            <h2>Adobe Photoshop</h2>            <h2>Adobe Animate</h2>            <h2>Adobe Dimension</h2>            <h2>Adobe Premiere Pro</h2>            <h2>Adobe After Effects</h2>            <h2>Blender</h2>            <h2>Aseprite</h2>            <h2>Clip Studio</h2>                    </div>            <div class=\"space\">                </div>            <div class=\"Para\">                <h1>Art/Drawin/Painting</h1>                </div>                <div class=\"space\">                    </div>                <div class=\"Para\">                    <h2>Adobe Photoshop</h2>                    <h2>Adobe Animate</h2>                    <h2>Firealpaca</h2>                    <h2>Jump Paint</h2>                    <h2>Medibang Paint Pro</h2>                    <h2>Blender</h2>                    <h2>Aseprite</h2>                    <h2>Clip Studio</h2>                                    </div>                    <div class=\"space\">                        </ div >                                         <div class=\"Header\">                            <h1>Projects</h1>                           </div>                                    <div class=\"space\">                               </div>                                           <div class=\"Para\">                    <a href=\"https://discord.gg/wWMFGgDMgH\" target=\"_blank\" >                        <h2 style=\"color: rgb(236, 88, 162);\" >Minecraft Ruby Mod</h2>                    </a>                                                   <a href=\"https://megamerstudios.itch.io/\" target=\"_blank\" >                        <h2 style=\"color: rgb(241, 51, 108);\" >itch.io</h2>                    </a>                                                  <a href=\"https://www.gamemaster.net.tr/\" target=\"_blank\" >                        <h2 style=\" color: rgb(6, 43, 255);\" >GameMaster</h2>                    </a>                                                   <a href=\"https://discord.gg/KC8RNYE4kH\" target=\"_blank\" >                        <h2 style=\"color: rgb(88, 113, 255);\" >Discord</h2>                    </a>                                                    <a href=\"https://www.roblox.com/groups/13074732/MEGAMER-GAME-STUDIOS#!/about\" target=\"_blank\" >                        <h2 style=\" color: rgb(165, 165, 165);\" >Roblox</h2>   </a>                        <a href=\"https://github.com/Megamer-studios/AquamarIDE\" target=\"_blank\" >                            <h2 style=\" color: rgb(6, 255, 222);\" >AquamarIDE</h2>                        </a>                        <a href=\"https://github.com/Megamer-studios\" target=\"_blank\" >                            <h2 style=\" color: rgb(66, 66, 66);\" >Github</h2>                        </a>                </div>                <div class=\"space\">                    </div>                <div class=\"Header\">                    <h1>Contact</h1>                   </div>                      <div class=\"space\">                       </div>                   <div class=\"Para\">                    <h2>Twitter/X: @AquamarineHo</h2>                    <h2>Mail: cozoral@outlook.com</h2>                    <h2>Discord: aquamarine__hoshino_</h2>                   </div>                   <div class=\"space\">                       </div>                   <div class=\"Header\">                    <h1>Social Media</h1>                   </div>                      <div class=\"space\">                       </div>                   <div class=\"Para\">                    <h2>Twitter/X: @AquamarineHo</h2>                    <h2>Reddit: u/giantvar </h2>                    <h2>Discord: aquamarine__hoshino_</h2>                                   </div>                   <div class=\"space\">                       </div>                   <div class=\"Header\">                    <h1>Copyright Megamer Studios 2024</h1>                   </div>               </body></html>";
+                        terminalAquaLine.IsTypeWriter = true;
+                        terminalAquaLine.IsHTMLMarkup = true;
+                        commandList.Add(terminalAquaLine);
+                    }
+                    else
+                    {
+                        Invalid();
+                    }
+                }
+                else if (inputCommand.ToLower() == "process: astolfo")
+                {
+                    if (secret == true)
+                    {
+                        CommandItemClass terminalAssLine = new CommandItemClass();
+                        terminalAssLine.Text = "<img src=\"https://www.gamemaster.net.tr/wp-content/uploads/2024/01/6ddc8727b8c5ea521ab770a1cc3d43d6.jpg\">";
+                        terminalAssLine.IsTypeWriter = true;
+                        terminalAssLine.IsHTMLMarkup = true;
+                        commandList.Add(terminalAssLine);
+                    }
+                    else
+                    {
+                        Invalid();
+                    }
+                }
+                else if (inputCommand.ToLower() == "process: secret")
+                {
+                    if (secret == false)
+                    {
+                        secret = true;
+                        CommandItemClass terminalSec1Line = new CommandItemClass();
+                        terminalSec1Line.Text = "Secret mode enabled!";
+                        terminalSec1Line.IsTypeWriter = true;
+                        terminalSec1Line.Color = "#f7f701";
+                        commandList.Add(terminalSec1Line);
+                    }
+                    else if (secret == true)
+                    {
+                        secret = false;
+                        CommandItemClass terminalSec2Line = new CommandItemClass();
+                        terminalSec2Line.Text = "Secret mode disabled!";
+                        terminalSec2Line.IsTypeWriter = true;
+                        terminalSec2Line.Color = "#f7f701";
+                        commandList.Add(terminalSec2Line);
+                    }
+                }
+                else
+                {
+                    Invalid();
+                }
+            }
+            if (attempts == 5 && starte == false)
+            {
+                CommandItemClass terminalAttemptLine = new CommandItemClass();
+                terminalAttemptLine.Text = "Hey there! It seems you're having some problems with HIPAR";
+                terminalAttemptLine.Color = "#8fc2f8";
+                terminalAttemptLine.IsTypeWriter = true;
+                commandList.Add(terminalAttemptLine);
+                CommandItemClass terminalAttempt2Line = new CommandItemClass();
+                terminalAttempt2Line.Text = "Would you like some help? (Y/N)";
+                terminalAttempt2Line.Color = "#8fc2f8";
+                terminalAttempt2Line.IsTypeWriter = true;
+                commandList.Add(terminalAttempt2Line);
+                yn = true;
+                ynl = 1;
+                starte = true;
+            }
+            if (yn == true)
+            {
+                if (ynl == 1)
+                {
+                    if (inputCommand.ToLower() == "y")
+                    {
+                        CommandItemClass terminalAttemptyLine = new CommandItemClass();
+                        terminalAttemptyLine.Text = "Great!";
+                        terminalAttemptyLine.Color = "#8fc2f8";
+                        terminalAttemptyLine.IsTypeWriter = true;
+                        commandList.Add(terminalAttemptyLine);
+                        CommandItemClass terminalAttempty2Line = new CommandItemClass();
+                        terminalAttempty2Line.Text = "Invalid file name \"hipar_errorhelp.txt\"";
+                        terminalAttempty2Line.Color = "#ff0000";
+                        terminalAttempty2Line.IsTypeWriter = true;
+                        commandList.Add(terminalAttempty2Line);
+                        yn = false;
+                    }
+                    else if (inputCommand.ToLower() == "n")
+                    {
+                        CommandItemClass terminalAttemptnLine = new CommandItemClass();
+                        terminalAttemptnLine.Text = "Okay then! Go ahead.";
+                        terminalAttemptnLine.Color = "#8fc2f8";
+                        terminalAttemptnLine.IsTypeWriter = true;
+                        commandList.Add(terminalAttemptnLine);
+                        yn = false;
+                    }
+                }
+            }
+            inputCommand = String.Empty;
+
+        }
+
+    }
+    private void terminalInit()
+    {
+        CommandItemClass terminalInitLine1 = new CommandItemClass();
+        terminalInitLine1.IsHTMLMarkup = true;
+        terminalInitLine1.Text = @"
+        <pre style="" color: #ffffff; font-size: 24px;"">
+          _    _ _____ _____        _____  
+         | |  | |_   _|  __ \ /\   |  __ \ 
+         | |__| | | | | |__) /  \  | |__) |
+         |  __  | | | |  ___/ /\ \ |  _  / 
+         | |  | |_| |_| |  / ____ \| | \ \ 
+         |_|  |_|_____|_| /_/    \_\_|  \_\
+        </pre>";
+        commandList.Add(terminalInitLine1);
+        CommandItemClass terminalInitLine2 = new CommandItemClass();
+        terminalInitLine2.FontSize = 20;
+        terminalInitLine2.Text = "Welcome to HIPAR V0.0.1alpha";
+        terminalInitLine2.IsTypeWriter = true;
+        commandList.Add(terminalInitLine2);
+    }
+    class CommandItemClass
+    {
+        public string Color { get; set; } = "#555555";
+        public bool IsHTMLMarkup { get; set; }
+        public string Text { get; set; }
+        public DateTime Zaman { get; set; }
+        public int FontSize { get; set; } = 16;
+        public bool IsTypeWriter { get; set; }
+    }
+    private async Task Hisuii()
+    {
+        string url = "https://www.who.int/news-room/fact-sheets/detail/suicide";
+        await jsRuntime.InvokeAsync<object>("open", url, "_blank");
+    }
+    private async Task Knowi()
+    {
+        string url = "https://rezero.fandom.com/wiki/Rem";
+        await jsRuntime.InvokeAsync<object>("open", url, "_blank");
+    }
+    private void Invalid()
+    {
+            attempts++;
+            CommandItemClass terminalErrorLine = new CommandItemClass();
+
+            terminalErrorLine.FontSize = 20;
+            terminalErrorLine.Text = "Invalid Argument";
+            terminalErrorLine.Color = "#ff0000";
+            terminalErrorLine.IsTypeWriter = true;
+
+            commandList.Add(terminalErrorLine);
+        
+    }
+}
