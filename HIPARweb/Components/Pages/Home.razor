@@ -63,6 +63,7 @@
     private bool yn;
     private int ynl = 0;
     private bool starte;
+    private bool HTMLw;
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -237,6 +238,21 @@
                         Invalid();
                     }
                 }
+                else if (inputCommand.ToLower() == "writemode: html")
+                {
+                    if (secret == true)
+                    {
+                        CommandItemClass terminalHt1Line = new CommandItemClass();
+                        terminalHt1Line.Text = "WriteMode set to \"HTML\"";
+                        terminalHt1Line.IsTypeWriter = true;
+                        commandList.Add(terminalHt1Line);
+                        HTMLw = true;
+                    }
+                    else
+                    {
+                        Invalid();
+                    }
+                }
                 else if (inputCommand.ToLower() == "process: secret")
                 {
                     if (secret == false)
@@ -257,6 +273,14 @@
                         terminalSec2Line.Color = "#f7f701";
                         commandList.Add(terminalSec2Line);
                     }
+                }
+                else if (HTMLw == true)
+                {
+                    CommandItemClass terminalHTMLLine = new CommandItemClass();
+                    terminalHTMLLine.Text = inputCommand;
+                    terminalHTMLLine.IsHTMLMarkup = true;
+                    commandList.Add(terminalHTMLLine);
+                    HTMLw = false;
                 }
                 else
                 {
@@ -308,6 +332,7 @@
                     }
                 }
             }
+
             inputCommand = String.Empty;
 
         }
