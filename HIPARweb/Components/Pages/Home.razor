@@ -83,6 +83,17 @@
             {
 
             }
+            else if (rndValue >= 0 && rndValue <= 100)
+            {
+                CommandItemClass terminalGuruLine = new CommandItemClass();
+                terminalGuruLine.Text = @"
+        <pre style="" color: #ffffff; font-size: 60px; font-family:'Public Pixel'; "">
+         Guru in meditation!
+             :(
+        </pre>";
+                terminalGuruLine.IsHTMLMarkup = true;
+                commandList.Add(terminalGuruLine);
+            }
 
             await InvokeAsync(StateHasChanged);
         };
