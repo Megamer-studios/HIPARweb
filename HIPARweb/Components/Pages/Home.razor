@@ -64,6 +64,8 @@
     private int ynl = 0;
     private bool starte;
     private bool HTMLw;
+    private int pingProg;
+    private bool ntworkType;
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -249,13 +251,14 @@
                         Invalid();
                     }
                 }
-                else if (inputCommand.ToLower() == "writemode: html")
+                else if (inputCommand.ToLower() == "process: writemode: html")
                 {
                     if (secret == true)
                     {
                         CommandItemClass terminalHt1Line = new CommandItemClass();
                         terminalHt1Line.Text = "WriteMode set to \"HTML\"";
                         terminalHt1Line.IsTypeWriter = true;
+                        terminalHt1Line.Color = "#ffffff";
                         commandList.Add(terminalHt1Line);
                         HTMLw = true;
                     }
@@ -293,6 +296,50 @@
                     commandList.Add(terminalHTMLLine);
                     HTMLw = false;
                 }
+                else if (inputCommand.ToLower() == "process: ping")
+                {
+                    if (pingProg ==0)
+                    {
+                        CommandItemClass terminalErrorpg1Line = new CommandItemClass();
+
+                        terminalErrorpg1Line.FontSize = 20;
+                        terminalErrorpg1Line.Text = "HIPAR is currently not connected to a network.";
+                        terminalErrorpg1Line.Color = "#ff0000";
+
+                        CommandItemClass terminalErrorpg2Line = new CommandItemClass();
+
+                        terminalErrorpg2Line.FontSize = 20;
+                        terminalErrorpg2Line.Text = "Would you like to connect it? (Y/N)";
+                        terminalErrorpg2Line.Color = "#ff0000";
+                        commandList.Add(terminalErrorpg1Line);
+                        commandList.Add(terminalErrorpg2Line);
+                        inputCommand = String.Empty;
+                        ynl = 2;
+                        yn = true;
+
+                    }
+                }
+                else if (inputCommand.ToLower() == "process: network")
+                {
+
+                    CommandItemClass terminalNtwrkLine = new CommandItemClass();
+                    terminalNtwrkLine.Text = "What network would you like to join?";
+                    terminalNtwrkLine.IsTypeWriter = true;
+                    commandList.Add(terminalNtwrkLine);
+                    ntworkType = true;
+
+
+                }
+                else if (inputCommand.ToLower() == "GMHIPAR")
+                {
+                    if (ntworkType == true)
+                    {
+
+                        NetworkConnecting();
+
+
+                    }
+                }
                 else
                 {
                     Invalid();
@@ -310,11 +357,16 @@
                 terminalAttempt2Line.Color = "#8fc2f8";
                 terminalAttempt2Line.IsTypeWriter = true;
                 commandList.Add(terminalAttempt2Line);
+                inputCommand = String.Empty;
                 yn = true;
                 ynl = 1;
                 starte = true;
             }
-            if (yn == true)
+            if (String.IsNullOrEmpty(inputCommand))
+            {
+
+            }
+            else if (yn == true)
             {
                 if (ynl == 1)
                 {
@@ -340,6 +392,49 @@
                         terminalAttemptnLine.IsTypeWriter = true;
                         commandList.Add(terminalAttemptnLine);
                         yn = false;
+                    }
+                    else
+                    {
+                        CommandItemClass terminalErrorynLine = new CommandItemClass();
+
+                        terminalErrorynLine.FontSize = 20;
+                        terminalErrorynLine.Text = inputCommand + " Is not a valid option";
+                        terminalErrorynLine.Color = "#ff0000";
+                        terminalErrorynLine.IsTypeWriter = true;
+
+                        commandList.Add(terminalErrorynLine);
+                    }
+                }
+                if (ynl == 2)
+                {
+                    if (inputCommand.ToLower() == "y")
+                    {
+
+                        CommandItemClass terminalNetworkcLine = new CommandItemClass();
+                        terminalNetworkcLine.Text = "You can use the \"process: network\" to do so.";
+                        terminalNetworkcLine.IsTypeWriter = true;
+                        commandList.Add(terminalNetworkcLine);
+                        yn = false;
+                    }
+                    else if (inputCommand.ToLower() == "n")
+                    {
+                        CommandItemClass terminalNetnLine = new CommandItemClass();
+                        terminalNetnLine.Text = "Okay then! Go ahead.";
+                        terminalNetnLine.Color = "#8fc2f8";
+                        terminalNetnLine.IsTypeWriter = true;
+                        commandList.Add(terminalNetnLine);
+                        yn = false;
+                    }
+                    else
+                    {
+                        CommandItemClass terminalErrorynLine = new CommandItemClass();
+
+                        terminalErrorynLine.FontSize = 20;
+                        terminalErrorynLine.Text = inputCommand + " Is not a valid option";
+                        terminalErrorynLine.Color = "#ff0000";
+                        terminalErrorynLine.IsTypeWriter = true;
+
+                        commandList.Add(terminalErrorynLine);
                     }
                 }
             }
@@ -390,15 +485,23 @@
     }
     private void Invalid()
     {
-            attempts++;
-            CommandItemClass terminalErrorLine = new CommandItemClass();
+        attempts++;
+        CommandItemClass terminalErrorLine = new CommandItemClass();
 
-            terminalErrorLine.FontSize = 20;
-            terminalErrorLine.Text = "Invalid Argument";
-            terminalErrorLine.Color = "#ff0000";
-            terminalErrorLine.IsTypeWriter = true;
+        terminalErrorLine.FontSize = 20;
+        terminalErrorLine.Text = "Invalid Argument";
+        terminalErrorLine.Color = "#ff0000";
+        terminalErrorLine.IsTypeWriter = true;
 
-            commandList.Add(terminalErrorLine);
-        
+        commandList.Add(terminalErrorLine);
+
+    }
+    private void NetworkConnecting()
+    {
+        CommandItemClass terminalNtwrkYLine = new CommandItemClass();
+        terminalNtwrkYLine.Text = "Connecting";
+        terminalNtwrkYLine.IsTypeWriter = true;
+        commandList.Add(terminalNtwrkYLine);
+        ntworkType = false;
     }
 }

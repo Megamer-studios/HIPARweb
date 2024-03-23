@@ -9,7 +9,9 @@ a, .btn-link {
 .noborder:focus {
     border: none;
 }
-
+textarea:focus, input:focus {
+    outline: none;
+}
 .btn-primary {
     color: #fff;
     background-color: #1b6ec2;
@@ -285,4 +287,8 @@ h1:focus {
     }
 
 
+}
+
+.crt span {
+    
 }
