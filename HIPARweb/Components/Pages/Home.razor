@@ -9,6 +9,7 @@
 
     <div style="background-color:darkred; height:10%; min-height:10%;">
         <h1 style="background-color: darkred; font-family: 'Public Pixel'; color: black;">HIPAR</h1>
+        <h1 style="background-color: darkred; font-family: 'Public Pixel'; color: black; font-size: 12pt;">(Highly Intelligent Processing Airgtonyte Result)</h1>
         </div>
     <div class="crt"  style=" background-color:#050505; height: 85%; min-height: 85%; font-family:'Public Pixel'; font-size:16px;">
        
@@ -66,6 +67,7 @@
     private bool HTMLw;
     private int pingProg;
     private bool ntworkType;
+    private bool IsTimerVisible;
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -96,7 +98,11 @@
                 terminalGuruLine.IsHTMLMarkup = true;
                 commandList.Add(terminalGuruLine);
             }
-
+            if (IsTimerVisible == true)  {
+                CommandItemClass terminalTestLine = new CommandItemClass();
+                terminalTestLine.Text = rndValue.ToString();
+                commandList.Add(terminalTestLine);
+            }
             await InvokeAsync(StateHasChanged);
         };
         _timer.Enabled = true;
@@ -230,6 +236,7 @@
                         terminalAquaLine.IsTypeWriter = true;
                         terminalAquaLine.IsHTMLMarkup = true;
                         commandList.Add(terminalAquaLine);
+
                     }
                     else
                     {
@@ -261,6 +268,29 @@
                         terminalHt1Line.Color = "#ffffff";
                         commandList.Add(terminalHt1Line);
                         HTMLw = true;
+                    }
+                    else
+                    {
+                        Invalid();
+                    }
+                }
+                else if (inputCommand.ToLower() == "process: log: timer")
+                {
+                    if (secret == true)
+                    {
+                        if (IsTimerVisible == false) {
+                            CommandItemClass terminalTimeryLine = new CommandItemClass();
+                            terminalTimeryLine.Text = "Timer Log Enabled";
+                            commandList.Add(terminalTimeryLine);
+                            IsTimerVisible = true;
+                        }
+                        else if (IsTimerVisible == true)
+                        {
+                            CommandItemClass terminalTimernLine = new CommandItemClass();
+                            terminalTimernLine.Text = "Timer Log Disabled";
+                            commandList.Add(terminalTimernLine);
+                            IsTimerVisible = false;
+                        }
                     }
                     else
                     {
