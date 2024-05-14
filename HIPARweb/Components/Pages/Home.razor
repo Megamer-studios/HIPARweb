@@ -1,4 +1,4 @@
-﻿@page "/"
+@page "/"
 @using System.Timers
 @rendermode InteractiveServer
 @inject IJSRuntime jsRuntime
@@ -68,6 +68,8 @@
     private int pingProg;
     private bool ntworkType;
     private bool IsTimerVisible;
+    private bool NetworkConnected;
+    private bool Unable = true;
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -87,16 +89,27 @@
             {
 
             }
+            else if (rndValue >= 1100000 && rndValue <= 1100500)
+            {
+                if (NetworkConnected == false)
+                {
+                    CommandItemClass terminalWifiLine = new CommandItemClass();
+                    terminalWifiLine.Text = "Error code 0x3345S: My boss keeps telling me to write down a cool network error so anyways if you encounter this error the Wi-Fi network is \" gmhipar \"";
+                    terminalWifiLine.Color = "#f31000";
+                    commandList.Add(terminalWifiLine);
+                }
+
+            }
+            if (IsTimerVisible == true)
+            {
+                CommandItemClass terminalTestLine = new CommandItemClass();
+                terminalTestLine.Text = rndValue.ToString();
+                commandList.Add(terminalTestLine);
+
+            }
             else if (rndValue >= 0 && rndValue <= 100)
             {
-                CommandItemClass terminalGuruLine = new CommandItemClass();
-                terminalGuruLine.Text = @"
-        <pre style="" color: #ffffff; font-size: 60px; font-family:'Public Pixel'; "">
-         Guru in meditation!
-             :(
-        </pre>";
-                terminalGuruLine.IsHTMLMarkup = true;
-                commandList.Add(terminalGuruLine);
+                Guru();
             }
             if (IsTimerVisible == true)  {
                 CommandItemClass terminalTestLine = new CommandItemClass();
@@ -124,7 +137,7 @@
     {
 
 
-        if (String.IsNullOrEmpty(inputCommand))
+        if (String.IsNullOrEmpty(inputCommand) && Unable == true)
         {
 
         }
@@ -160,7 +173,7 @@
          |  __  | | | |  ___/ /\ \ |  _  /
          | |  | |_| |_| |  / ____ \| | \ \
          |_|  |_|_____|_| /_/    \_\_|  \_\
-        </pre>";
+        </pre>"; 
                     terminalInfoLine.IsHTMLMarkup = true;
                     commandList.Add(terminalInfoLine);
                     CommandItemClass terminalInfoLine2 = new CommandItemClass();
@@ -187,6 +200,7 @@
 
                     commandList.Add(terminalHisuiLine);
                 }
+
                 else if (inputCommand.ToLower() == "process: knowledge")
                 {
                     Knowi();
@@ -211,6 +225,34 @@
                         Invalid();
                     }
                 }
+                else if (inputCommand.ToLower() == "process: laila")
+                {
+                    if (secret == true)
+                    {
+                        CommandItemClass terminalDumbLine = new CommandItemClass();
+                        terminalDumbLine.Text = "<img src=\"https://www.gamemaster.net.tr/wp-content/uploads/2024/04/GLtl1-vW4AAGwKG.jpeg\" style=\"width: 1920px; height: 500px;\">";
+                        terminalDumbLine.IsHTMLMarkup = true;
+                        commandList.Add(terminalDumbLine);
+                    }
+                    else
+                    {
+                        Invalid();
+                    }
+                }
+                else if (inputCommand.ToLower() == "process: spring")
+                {
+                    if (secret == true)
+                    {
+                        CommandItemClass terminalSpringLine = new CommandItemClass();
+                        terminalSpringLine.Text = "<!DOCTYPE html><html lang=\"en\"><head>    <link href=\"https://fonts.cdnfonts.com/css/roblox-new\" rel=\"stylesheet\">                                    <meta charset=\"UTF-8\">    <title>SPRING PJSK</title>    <link href=\"logo.png\" rel=\"icon\">    <style>        body {  background-image: url('background.png');  background-repeat: no-repeat;  background-position: 50%;  background-clip: border-box;  background-color: #ffcb83;  background-size:auto}.logo {  position: fixed;  margin-left: 68%;  scale: 55%;  margin-top: 43%;  opacity:65%;}        .topnav {  background-color: #ffc933;  overflow: hidden;  z-index: 1;}.topnav .first {  float: left;  color: rgb(255, 255, 255);  text-align: center;  padding: 14px 16px;  text-decoration: none;  font-size: 24pt;  font-family: 'Gotham Black', sans-serif;                                                                                      }.topnav .first:hover {  float: left;  color: rgb(255, 255, 255);  text-align: center;  padding: 14px 16px;  text-decoration: none;  font-size: 26pt;  font-family: 'Gotham Black', sans-serif;                                                                                      }.topnav .end   {float: right;color: rgb(255, 255, 255);text-align: center;padding: 50px 16px;text-decoration: none;font-size: 28pt;font-family: 'Gotham Black', sans-serif;text-shadow: 2px 2px #000000}.topnav .end:hover  {margin: auto;float: right;color: rgb(255, 255, 255);text-align: center;padding: 49px 16px;text-decoration: none;font-size: 29pt;font-family: 'Gotham Black', sans-serif;text-shadow: 2px 2px #006eff}.topnav .mid   {float: left;color: rgb(255, 255, 255);text-align: center;padding: 50px 16px;text-decoration: none;font-size: 12pt;font-family: 'Gotham Black', sans-serif;text-shadow: 2px 2px #000000}.topnav .mid:hover  {float: left;color: rgb(255, 255, 255);text-align: center;padding: 40px 16px;text-decoration: none;font-size: 14pt;font-family: 'Gotham Black', sans-serif;text-shadow: 2px 2px #006eff}.head {    margin: auto;    text-align: center;    margin-top: 100px;    font-family: 'Gotham Black', sans-serif;    overflow: hidden;    width: 43%;   font-size: 44pt;   color: #ffffff;   text-shadow: 2px 2px #cccccc  }.head:hover {    margin: auto;    text-align: center;    margin-top: 100px;    font-family: 'Gotham Black', sans-serif;    overflow: hidden;    width: 43%;   font-size: 44pt;   color: #ffffff;   text-shadow: 2px 2px #000000  }.para {    margin: auto;    text-align: center;    margin-top: 100px;    background-color: #f0f0f0;    overflow: hidden;    width: 43%;    min-height:207px;    font-size: 24pt;   color: #000000;   font-family: 'Gotham Black', sans-serif;    }.para img {    margin-top: 30px;}.para img:hover {    margin-top: 30px;    scale: 150%;    border: 5px solid black;}.para span {  color: #242424;}.para:hover {  scale: 110%;}.para .paraj {  font-size: 90pt;  color: #8abdff;}.para .paraj:hover {  font-size: 90pt;  color: #197dff;}    </style></head><body><div class=\"logo\">  <img src=\"logo.png\"></div>    <div class=\"topnav\">      <a class=\"first\" href=\"index.html\"><h1><b>SPRING PJSK</b></h1></a>      <a class=\"mid\" href=\"logs.html\"><h1><b>DUMB LOGS</b></h1></a>      <a class=\"mid\" href=\"staff.html\"><h1><b>STAFF TEAM</b></h1></a>      <a class=\"mid\" href=\"cast.html\"><h1><b>CAST</b></h1></a>      <a class=\"end\" href=\"https://github.com/Megamer-studios/\" target=\"_blank\">Developer</a>      </div>      <div class=\"head\">        <h1>Spring PJSK</h1>        <h1 style=\"color: #8abdff; font-size: 24pt;\">A Discord server</h1>      </div>      <div class=\"para\">        <h1>Community</h1>        <span>Spring Project Sekai offers a wide variety of people to talk to. You can Communicate with lots of people and make friends.</span>      </div>      <div class=\"para\">        <h1>Fandoms</h1>        <span>There are lots of channels dedicated to specific fandoms where you can share your experiences with.</span>      </div>      <div class=\"para\">        <h1>Partnerships</h1>        <span>We are partnered with great communities.</span>        <a href=\"https://discord.gg/ygNNUAAWMU\" target=\"_blank\"><h1  class=\"paraj\" style=\"font-size: 32pt;\"><b>Wr11speedrun's Korok Lab</b></h1></a>        <a href=\"https://discord.com/invite/CQngtvXfug\" target=\"_blank\"><h1  class=\"paraj\" style=\"font-size: 32pt;\"><b>ALYPOO'S HANGOUT</b></h1></a>      </div>      <div class=\"para\">       <a href=\"https://discord.gg/JSyUbG4SBc\" target=\"_blank\"> <h1 class=\"paraj\" >Join</h1></a>       </div>      <div class=\"para\">        <iframe src=\"https://discord.com/widget?id=1223483117843779584&theme=dark\" width=\"800\" height=\"500\" allowtransparency=\"true\" frameborder=\"0\" sandbox=\"allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts\"></iframe>      </div>      </body></html>";
+                        terminalSpringLine.IsHTMLMarkup = true;
+                        commandList.Add(terminalSpringLine);
+                    }
+                    else
+                    {
+                        Invalid();
+                    }
+                }
                 else if (inputCommand.ToLower() == "process: cow")
                 {
                     if (secret == true)
@@ -223,6 +265,7 @@
                     }
                     else
                     {
+
                         Invalid();
                     }
 
@@ -232,7 +275,7 @@
                     if (secret == true)
                     {
                         CommandItemClass terminalAquaLine = new CommandItemClass();
-                        terminalAquaLine.Text = "      <style>             .toplogo {        text-align: center;        scale: 70%;        opacity: 100%;       }       .Header {        text-align: center;        color: aquamarine;        scale: 150%;        font-family: 'Public Pixel', sans-serif;        text-shadow: 2px 2px rgb(1, 100, 70);        outline: 5px dotted aquamarine;       }       .Para {        width: 800px;       margin: auto;                text-align: center;        color: aquamarine;        scale: 130%;        font-family: 'Public Pixel', sans-serif;        text-shadow: 2px 2px rgb(1, 100, 70);             }       .space {        height: 65px;       }        </style>    </head>    <body style=\"background-color: black;\">        <div class=\"toplogo\">            <img src=\"https://www.gamemaster.net.tr/wp-content/uploads/2024/02/Aquamarine-Dev.png\">        </div>           <div class=\"Header\">    <h1>About me</h1>   </div>   <div class=\"space\">       </div>   <div class=\"Para\">    <p>My name is Cem Ozoral. I am 14 years old. My house is in Istanbul, in a complex where all the villas are. I work as a freelancer hobbyist and get home every day by 5 PM at the latest. I am obsessed with DUMPLINGS. I am usually in bed by 4 AM and make sure I get at least four hours of sleep, no matter what. After having some water and watching about eighty minutes of anime before going to bed, I usually have lots of problems sleeping until morning, so I wake up even more sleepy. I was told there were no issues at my last check-up.</p>   </div>   <div class=\"space\">       </div>   <div class=\"Header\">    <h1>Skills</h1>   </div>   <div class=\"space\">       </div>      <div class=\"Para\">   <h1>Programming/Coding</h1>   </div>   <div class=\"space\">       </div>   <div class=\"Para\">    <h2>C#</h2>    <h2>Python</h2>    <h2>(HTML/CSS)</h2>    <h2>Visual JS</h2>    </div>    <div class=\"space\">        </div>    <div class=\"Para\">        <h1>Graphic Design</h1>        </div>        <div class=\"space\">            </div>        <div class=\"Para\">            <h2>Adobe Photoshop</h2>            <h2>Adobe Animate</h2>            <h2>Adobe Dimension</h2>            <h2>Adobe Premiere Pro</h2>            <h2>Adobe After Effects</h2>            <h2>Blender</h2>            <h2>Aseprite</h2>            <h2>Clip Studio</h2>                    </div>            <div class=\"space\">                </div>            <div class=\"Para\">                <h1>Art/Drawin/Painting</h1>                </div>                <div class=\"space\">                    </div>                <div class=\"Para\">                    <h2>Adobe Photoshop</h2>                    <h2>Adobe Animate</h2>                    <h2>Firealpaca</h2>                    <h2>Jump Paint</h2>                    <h2>Medibang Paint Pro</h2>                    <h2>Blender</h2>                    <h2>Aseprite</h2>                    <h2>Clip Studio</h2>                                    </div>                    <div class=\"space\">                        </ div >                                         <div class=\"Header\">                            <h1>Projects</h1>                           </div>                                    <div class=\"space\">                               </div>                                           <div class=\"Para\">                    <a href=\"https://discord.gg/wWMFGgDMgH\" target=\"_blank\" >                        <h2 style=\"color: rgb(236, 88, 162);\" >Minecraft Ruby Mod</h2>                    </a>                                                   <a href=\"https://megamerstudios.itch.io/\" target=\"_blank\" >                        <h2 style=\"color: rgb(241, 51, 108);\" >itch.io</h2>                    </a>                                                  <a href=\"https://www.gamemaster.net.tr/\" target=\"_blank\" >                        <h2 style=\" color: rgb(6, 43, 255);\" >GameMaster</h2>                    </a>                                                   <a href=\"https://discord.gg/KC8RNYE4kH\" target=\"_blank\" >                        <h2 style=\"color: rgb(88, 113, 255);\" >Discord</h2>                    </a>                                                    <a href=\"https://www.roblox.com/groups/13074732/MEGAMER-GAME-STUDIOS#!/about\" target=\"_blank\" >                        <h2 style=\" color: rgb(165, 165, 165);\" >Roblox</h2>   </a>                        <a href=\"https://github.com/Megamer-studios/AquamarIDE\" target=\"_blank\" >                            <h2 style=\" color: rgb(6, 255, 222);\" >AquamarIDE</h2>                        </a>                        <a href=\"https://github.com/Megamer-studios\" target=\"_blank\" >                            <h2 style=\" color: rgb(66, 66, 66);\" >Github</h2>                        </a>                </div>                <div class=\"space\">                    </div>                <div class=\"Header\">                    <h1>Contact</h1>                   </div>                      <div class=\"space\">                       </div>                   <div class=\"Para\">                    <h2>Twitter/X: @AquamarineHo</h2>                    <h2>Mail: cozoral@outlook.com</h2>                    <h2>Discord: aquamarine__hoshino_</h2>                   </div>                   <div class=\"space\">                       </div>                   <div class=\"Header\">                    <h1>Social Media</h1>                   </div>                      <div class=\"space\">                       </div>                   <div class=\"Para\">                    <h2>Twitter/X: @AquamarineHo</h2>                    <h2>Reddit: u/giantvar </h2>                    <h2>Discord: aquamarine__hoshino_</h2>                                   </div>                   <div class=\"space\">                       </div>                   <div class=\"Header\">                    <h1>Copyright Megamer Studios 2024</h1>                   </div>               </body></html>";
+                        terminalAquaLine.Text = "      <style>             .toplogo {        text-align: center;        scale: 70%;        opacity: 100%;       }       .Header {        text-align: center;        color: aquamarine;        scale: 150%;        font-family: 'Public Pixel', sans-serif;        text-shadow: 2px 2px rgb(1, 100, 70);        outline: 5px dotted aquamarine;       }       .Para {        width: 800px;       margin: auto;                text-align: center;        color: aquamarine;        scale: 130%;        font-family: 'Public Pixel', sans-serif;        text-shadow: 2px 2px rgb(1, 100, 70);             }       .space {        height: 65px;       }        </style>    </head>    <body style=\"background-color: black;\">        <div class=\"toplogo\">            <img src=\"https://www.gamemaster.net.tr/wp-content/uploads/2024/02/Aquamarine-Dev.png\">        </div>           <div class=\"Header\">    <h1>About me</h1>   </div>   <div class=\"space\">       </div>   <div class=\"Para\">    <p>My name is Cem Ozoral. I am 14 years old. My house is in Istanbul, in a complex where all the villas are. I work as a freelancer hobbyist and get home every day by 5 PM at the latest. I am obsessed with DUMPLINGS. I am usually in bed by 4 AM and make sure I get at least four hours of sleep, no matter what. After having some water and watching about eighty minutes of anime before going to bed, I usually have lots of problems sleeping until morning, so I wake up even more sleepy. I was told there were no issues at my last check-up.</p>   </div>   <div class=\"space\">       </div>   <div class=\"Header\">    <h1>Skills</h1>   </div>   <div class=\"space\">       </div>      <div class=\"Para\">   <h1>Programming/Coding</h1>   </div>   <div class=\"space\">       </div>   <div class=\"Para\">    <h2>C#</h2>    <h2>Python</h2>    <h2>(HTML/CSS)</h2>    <h2>Visual JS</h2>    </div>    <div class=\"space\">        </div>    <div class=\"Para\">        <h1>Graphic Design</h1>        </div>        <div class=\"space\">            </div>        <div class=\"Para\">            <h2>Adobe Photoshop</h2>            <h2>Adobe Animate</h2>            <h2>Adobe Dimension</h2>            <h2>Adobe Premiere Pro</h2>            <h2>Adobe After Effects</h2>            <h2>Blender</h2>            <h2>Aseprite</h2>            <h2>Clip Studio</h2>                    </div>            <div class=\"space\">                </div>            <div class=\"Para\">                <h1>Art/Drawin/Painting</h1>                </div>                <div class=\"space\">                    </div>                <div class=\"Para\">                    <h2>Adobe Photoshop</h2>                    <h2>Adobe Animate</h2>                    <h2>Firealpaca</h2>                    <h2>Jump Paint</h2>                    <h2>Medibang Paint Pro</h2>                    <h2>Blender</h2>                    <h2>Aseprite</h2>                    <h2>Clip Studio</h2>                                    </div>                    <div class=\"space\">                        </ div >                                         <div class=\"Header\">                            <h1>Projects</h1>                           </div>                                    <div class=\"space\">                               </div>                                           <div class=\"Para\">                    <a href=\"https://discord.gg/wWMFGgDMgH\" target=\"_blank\" >                        <h2 style=\"color: rgb(236, 88, 162);\" >Minecraft Ruby Mod</h2>                    </a>                                                   <a href=\"https://megamerstudios.itch.io/\" target=\"_blank\" >                        <h2 style=\"color: rgb(241, 51, 108);\" >itch.io</h2>                    </a>                                                  <a href=\"https://www.gamemaster.net.tr/\" target=\"_blank\" >                        <h2 style=\" color: rgb(6, 43, 255);\" >GameMaster</h2>                    </a>                                                   <a href=\"https://discord.gg/KC8RNYE4kH\" target=\"_blank\" >                        <h2 style=\"color: rgb(88, 113, 255);\" >Discord</h2>                    </a>                                                    <a href=\"https://www.roblox.com/groups/13074732/MEGAMER-GAME-STUDIOS#!/about\" target=\"_blank\" >                        <h2 style=\" color: rgb(165, 165, 165);\" >Roblox</h2>   </a>                        <a href=\"https://github.com/Megamer-studios/AquamarIDE\" target=\"_blank\" >                            <h2 style=\" color: rgb(6, 255, 222);\" >AquamarIDE</h2>                        </a>                        <a href=\"https://github.com/Megamer-studios\" target=\"_blank\" >                            <h2 style=\" color: rgb(66, 66, 66);\" >Github</h2>                        </a>                </div>                <div class=\"space\">                    </div>                <div class=\"Header\">                    <h1>Contact</h1>                   </div>                      <div class=\"space\">                       </div>                   <div class=\"Para\">                    <h2>Twitter/X: @AquamarineHo</h2>                    <h2>Mail: cozoral@outlook.com</h2>                    <h2>Discord: aquamarine__hoshino_</h2>                   </div>                   <div class=\"space\">                       </div>                   <div class=\"Header\">                    <h1>Social Media</h1>                   </div>                      <div class=\"space\">                       </div>                   <div class=\"Para\">                    <h2>Twitter/X: @AquamarineHo</h2>                    <h2>Reddit: u/giantvar </h2>                    <h2>Discord: aquamarine__hoshino_</h2>                                   </div>                   <div class=\"space\">                       </div>                   <div class=\"Header\">                    <h1>Copyright Megamer Studios 2024</h1>                   </div>                                               <div class=\"Header\">                    <a href=\"https://www.gamemaster.net.tr/Portfolio/Len/\" ><h1>THE GREATEST OF ALL TIME MODE</h1></a>                   </div>      </body></html>                              ";
                         terminalAquaLine.IsTypeWriter = true;
                         terminalAquaLine.IsHTMLMarkup = true;
                         commandList.Add(terminalAquaLine);
@@ -268,6 +311,42 @@
                         terminalHt1Line.Color = "#ffffff";
                         commandList.Add(terminalHt1Line);
                         HTMLw = true;
+                    }
+                    else
+                    {
+                        Invalid();
+                    }
+                }
+                else if (inputCommand.ToLower() == "process: sex")
+                {
+                    if (secret == true)
+                    {
+                        CommandItemClass terminalSexLine = new CommandItemClass();
+                        terminalSexLine.Text = "plap plap plap plap* get pregnant get pregnant";
+                        terminalSexLine.IsTypeWriter = true;    
+                        commandList.Add(terminalSexLine);
+                        Thread.Sleep(3000);
+
+                        CommandItemClass terminalSex2Line = new CommandItemClass();
+                        terminalSex2Line.Text = "<div style=\"height: 100%; width: 100%; background-color: black; z-index: 99999;\"></div>";
+                        terminalSex2Line.IsHTMLMarkup = true;
+                        commandList.Add(terminalSex2Line);
+                        Guru();
+                    }
+                    else
+                    {
+                        Invalid();
+                    }
+                }
+                else if (inputCommand.ToLower() == "process: len")
+                {
+                    if (secret == true)
+                    {
+                        CommandItemClass terminalLenLine = new CommandItemClass();
+                        terminalLenLine.Text = "<video controls=\"\"> <source src=\"https://www.gamemaster.net.tr/spring/vds/methsound.mp4\" type=\"video/mp4\">Your browser does not support the video tag. </video>";
+                        terminalLenLine.IsHTMLMarkup = true;
+                        commandList.Add(terminalLenLine);
+
                     }
                     else
                     {
@@ -360,14 +439,26 @@
 
 
                 }
-                else if (inputCommand.ToLower() == "GMHIPAR")
+                else if (ntworkType == true)
                 {
-                    if (ntworkType == true)
+                    if (inputCommand.ToLower() == "gmhipar")
                     {
 
                         NetworkConnecting();
 
 
+                    }
+                    else
+                    {
+                        CommandItemClass terminalErrornLine = new CommandItemClass();
+
+                        terminalErrornLine.FontSize = 20;
+                        terminalErrornLine.Text = "Invalid Network Address";
+                        terminalErrornLine.Color = "#ff0000";
+                        terminalErrornLine.IsTypeWriter = true;
+
+                        commandList.Add(terminalErrornLine);
+                        ntworkType = false;
                     }
                 }
                 else
@@ -408,7 +499,7 @@
                         terminalAttemptyLine.IsTypeWriter = true;
                         commandList.Add(terminalAttemptyLine);
                         CommandItemClass terminalAttempty2Line = new CommandItemClass();
-                        terminalAttempty2Line.Text = "Invalid file name \"hipar_errorhelp.txt\"";
+                        terminalAttempty2Line.Text = "Invalid file name \"hipar_errorhelp.hpr\"";
                         terminalAttempty2Line.Color = "#ff0000";
                         terminalAttempty2Line.IsTypeWriter = true;
                         commandList.Add(terminalAttempty2Line);
@@ -532,6 +623,26 @@
         terminalNtwrkYLine.Text = "Connecting";
         terminalNtwrkYLine.IsTypeWriter = true;
         commandList.Add(terminalNtwrkYLine);
+        CommandItemClass terminalNtwrk2YLine = new CommandItemClass();
+        terminalNtwrk2YLine.Text = "Connected";
+        terminalNtwrk2YLine.IsTypeWriter = true;
+        commandList.Add(terminalNtwrk2YLine);
         ntworkType = false;
+        NetworkConnected = true;
+    }
+
+    private void Guru ()
+    {
+        CommandItemClass terminalGuruLine = new CommandItemClass();
+    terminalGuruLine.Text = @"
+    <pre style="" color: #ffffff; font-size: 60px; font-family:'Public Pixel'; "">
+     Guru in meditation!
+         :(
+    </pre>";
+            terminalGuruLine.IsHTMLMarkup = true;
+            commandList.Add(terminalGuruLine);
+            Unable = true;
+            Thread.Sleep(1500);
+            Unable = false;
     }
 }
